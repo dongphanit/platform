@@ -17,3 +17,35 @@ services:
         class: Oro\Bundle\UserBundle\Api\Processor\DisableUserByDefault
         tags:
             - { name: oro.api.processor, action: customize_form_data, event: pre_validate, parentAction: create, class: Oro\Bundle\UserBundle\Entity\User }
+    
+    oro_user.api.frontend.adminlogin.normalize:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\NormalizeEntity
+        arguments:
+            - '@oro_api.object_normalizer'
+        tags:
+            - { name: oro.api.processor, action: create, group: normalize_data, requestType: frontend, class: Oro\Bundle\UserBundle\Api\Model\UserLogin }
+
+    # return HTTP_OK status code instead of HTTP_CREATED for "login" POST request
+    oro_user.api.frontend.adminlogin.set_http_ok_response_status_code:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\SetHttpResponseStatusCode
+        tags:
+            - { name: oro.api.processor, action: create, group: normalize_result, requestType: frontend&rest, class: Oro\Bundle\UserBundle\Api\Model\Login, priority: -29 }
+
+    oro_user.api.frontend.authentication_provider1:
+        alias: oro_security.authentication.provider.username_password_organization.main
+        public: false
+
+    oro_user.api.frontend.authentication_provider:
+        alias: oro_security.authentication.provider.username_password_organization.frontend
+        public: false
+
+    oro_user.api.frontend.adminlogin.handle:
+        class: Oro\Bundle\UserBundle\Api\Processor\HandleLogin
+        arguments:
+            - 'main'
+            - '@oro_user.api.frontend.authentication_provider1'
+            - '@oro_config.manager'
+            - '@oro_api.doctrine_helper'
+            - '@translator'
+        tags:
+            - { name: oro.api.processor, action: create, group: save_data, requestType: frontend, class: Oro\Bundle\UserBundle\Api\Model\UserLogin }
