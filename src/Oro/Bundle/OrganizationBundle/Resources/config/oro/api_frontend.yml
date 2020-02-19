@@ -17,4 +17,4 @@ api:
             actions:
                 delete: false
                 delete_list: false
-                create: false
+                create: true

@@ -70,6 +70,40 @@ class Organization extends ExtendOrganization implements
     /**
      * @var string
      *
+     * @ORM\Column(name="phone", type="string", length=255, nullable=true)
+     * @ConfigField(
+     *  defaultValues={
+     *      "entity"={
+     *          "contact_information"="phone"
+     *      }
+     *  }
+     * )
+     */
+     protected $phone;
+
+
+    /**
+     * @var ArrayCollection|CusOrganiztion[]
+     *
+     * @ORM\OneToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CusOrganiztion", mappedBy="organiztion")
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $cusOrganizations;
+
+
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="description", type="text", nullable=true)
      * @ConfigField(
      *  defaultValues={
@@ -80,6 +114,21 @@ class Organization extends ExtendOrganization implements
      * )
      */
     protected $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="address", type="text", nullable=true)
+     * @ConfigField(
+     *  defaultValues={
+     *    "dataaudit"={
+     *       "auditable"=true
+     *    }
+     *   }
+     * )
+     */
+    protected $address;
+
 
     /**
      * @var ArrayCollection|BusinessUnit[]
@@ -199,6 +248,31 @@ class Organization extends ExtendOrganization implements
     }
 
     /**
+     * Set phone number
+     *
+     * @param string $phone
+     *
+     * @return CustomerUserAddress
+     */
+     public function setPhone($phone)
+     {
+         $this->phone = $phone;
+ 
+         return $this;
+     }
+ 
+     /**
+      * Get phone number
+      *
+      * @return string
+      */
+     public function getPhone()
+     {
+         return $this->phone;
+     }
+
+ 
+    /**
      * @param string $description
      *
      * @return $this
@@ -209,6 +283,7 @@ class Organization extends ExtendOrganization implements
 
         return $this;
     }
+    
 
     /**
      * @return string

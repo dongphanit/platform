@@ -55,6 +55,7 @@ services:
         arguments:
             - '@doctrine'
             - '@oro_config.manager'
+            - '@oro_security.token_accessor'
 
     oro_user.security.provider:
         class: Oro\Bundle\UserBundle\Security\UserProvider
