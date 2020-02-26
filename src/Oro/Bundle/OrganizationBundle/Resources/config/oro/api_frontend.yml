@@ -14,6 +14,16 @@ api:
 
         Oro\Bundle\OrganizationBundle\Entity\Organization:
             documentation_resource: '@OroOrganizationBundle/Resources/doc/api/organization.md'
+            fields:
+                cusOrganizations:
+                    form_options:
+                        mapped: false
+                businessUnits:
+                    form_options:
+                        mapped: false
+                users:
+                    form_options:
+                        mapped: false
             actions:
                 delete: false
                 delete_list: false

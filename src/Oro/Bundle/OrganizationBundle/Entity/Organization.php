@@ -192,12 +192,27 @@ class Organization extends ExtendOrganization implements
      */
     protected $enabled;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     * @ConfigField(
+     *      defaultValues={
+     *          "importexport"={
+     *              "excluded"=true
+     *          }
+     *      }
+     * )
+     */
+    protected $email;
+
     public function __construct()
     {
         parent::__construct();
 
         $this->businessUnits = new ArrayCollection();
         $this->users         = new ArrayCollection();
+        $this->cusOrganizations    = new ArrayCollection();
     }
 
 
@@ -291,6 +306,27 @@ class Organization extends ExtendOrganization implements
     public function getDescription()
     {
         return $this->description;
+    }
+
+      /**
+     * @param string $description
+     *
+     * @return $this
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+    
+
+    /**
+     * @return string
+     */
+    public function getAddress()
+    {
+        return $this->address;
     }
 
     /**
@@ -524,5 +560,13 @@ class Organization extends ExtendOrganization implements
     public function getUsers()
     {
         return $this->users;
+    }
+
+    /**
+     * @return ArrayCollection|User[]
+     */
+    public function getCusOrganiztions()
+    {
+        return $this->cusOrganizations;
     }
 }

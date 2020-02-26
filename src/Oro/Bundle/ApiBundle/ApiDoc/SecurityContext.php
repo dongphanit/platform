@@ -78,6 +78,7 @@ class SecurityContext implements SecurityContextInterface
 
         if ($token instanceof OrganizationAwareTokenInterface) {
             $organization = $token->getOrganization();
+            
             foreach ($apiKeyKeys as $apiKeyKey) {
                 if ($apiKeyKey->getOrganization()->getId() === $organization->getId()) {
                     return $apiKeyKey->getApiKey();

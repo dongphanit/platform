@@ -26,13 +26,20 @@ class SecurityController extends AbstractController
             RequestStack::class
         ]);
     }
-
+    function debug_to_console($data) {
+        $output = $data;
+        if (is_array($output))
+            $output = implode(',', $output);
+    
+        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+    }
     /**
      * @Route("/login", name="oro_user_security_login")
      * @Template("@OroUser/Security/login.html.twig")
      */
     public function loginAction()
     {
+        $this->debug_to_console($this->getUser());
         if ($this->getUser()) {
             return $this->redirect($this->generateUrl('oro_default'));
         }

@@ -20,6 +20,11 @@ security:
             context:                        main
             logout_on_user_change: true
 
+        frontend_api_userlogin:
+            pattern: '^%oro_api.rest.prefix%userlogin'
+            security: false
+            stateless: true
+
         reset_password:
             pattern:                        ^/user/reset/*
             provider:                       chain_provider
