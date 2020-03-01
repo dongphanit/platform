@@ -222,4 +222,28 @@ class OrganizationRepository extends EntityRepository
 
         return array_column($qb->getQuery()->getArrayResult(), 'id');
     }
+
+     /**
+     * @param int $customerId
+     * @param AclHelper $aclHelper
+     * @return array
+     */
+    public function getOrganizationsWithLstPhone($lstPhone, AclHelper $aclHelper = null)
+    {
+        $phones = array($lstPhone);
+        $qb = $this->createQueryBuilder('organization');
+        $qb->select()
+            ->join('organization.cusOrganizations', 'org')->addSelect("org") 
+            ->andWhere($qb->expr()->andX(
+                $qb->expr()->in('organization.phone', $lstPhone),
+                $qb->expr()->eq('org.cus_status', '3')
+            ));
+
+        if ($aclHelper) {
+            $query = $aclHelper->apply($qb);
+        } else {
+            $query = $qb->getQuery();
+        }      
+        return $query->getArrayResult();
+    }
 }

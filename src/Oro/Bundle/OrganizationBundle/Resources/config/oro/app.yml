@@ -1,0 +1,14 @@
+security:
+    firewalls:
+        frontend_api_options:
+            pattern: '%oro_api.rest.pattern%'
+            methods: [OPTIONS]
+            security: false
+            stateless: true
+  
+        frontend_api_searchorganization:
+            pattern: '^%oro_api.rest.prefix%searchorganization'
+            security: false
+            stateless: true
+      
+

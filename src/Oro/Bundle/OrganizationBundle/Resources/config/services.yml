@@ -268,3 +268,11 @@ services:
            - '@oro_security.ownership_tree_provider'
         tags:
             - { name: validator.constraint_validator, alias: parent_business_unit_validator }
+
+
+    oro_organization.provider.frontend.organizationcontact:
+        class: 'Oro\Bundle\OrganizationBundle\Provider\OrganizationContactProvider'
+        public: false
+        arguments:
+            - '@doctrine'
+            - '@oro_security.acl_helper'
