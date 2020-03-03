@@ -67,16 +67,21 @@ class AbstractUserRepository extends EntityRepository
         $qb->setMaxResults(1);
 
         if ($useLowercase) {
-            $qb->where($qb->expr()->eq('u.emailLowercase', ':email'))
-                ->setParameter('email', mb_strtolower($email));
+            $qb->where($qb->expr()->orX(
+                $qb->expr()->eq('u.emailLowercase', ':email'),
+                $qb->expr()->eq('u.username', ':email')
+                )
+            )->setParameter('email', mb_strtolower($email));
         } else {
             $qb->where(
+                $qb->expr()->orX(
                 $qb->expr()->eq(
                     $this->isCaseInsensitiveCollation() ? 'CAST(u.email as binary)' : 'u.email',
                     ':email'
+                ),
+                $qb->expr()->eq('u.username', ':email')
                 )
-            )
-            ->setParameter('email', $email);
+            )->setParameter('email', mb_strtolower($email));
         }
 
         return $qb;
