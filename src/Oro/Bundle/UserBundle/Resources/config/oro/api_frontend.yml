@@ -4,9 +4,9 @@ api:
             alias: userlogin
             plural_alias: userlogin
 
-        Oro\Bundle\UserBundle\Api\Model\UserProfile:
-            alias: userprofile
-            plural_alias: userprofile
+        # Oro\Bundle\UserBundle\Api\Model\UserProfile:
+        #     alias: userprofile
+        #     plural_alias: userprofile
 
     entities:
         Oro\Bundle\UserBundle\Entity\Group:
@@ -61,24 +61,24 @@ api:
             # this entity does not have own API resource
             actions: false
 
-        Oro\Bundle\UserBundle\Api\Model\UserProfile:
-            fields:
-                id:
-                    description: The unique identifier of a user.
-            actions:
-                get:
-                    description: Get current logged in user
-                    documentation: Retrieve a record of the currently logged in user.
-                get_list: false
-                create: false
-                update: false
-                delete: false
-                delete_list: false
-                get_subresource: false
-                get_relationship: false
-                update_relationship: false
-                add_relationship: false
-                delete_relationship: false
+        # Oro\Bundle\UserBundle\Api\Model\UserProfile:
+        #     fields:
+        #         id:
+        #             description: The unique identifier of a user.
+        #     actions:
+        #         get:
+        #             description: Get current logged in user
+        #             documentation: Retrieve a record of the currently logged in user.
+        #         get_list: false
+        #         create: false
+        #         update: false
+        #         delete: false
+        #         delete_list: false
+        #         get_subresource: false
+        #         get_relationship: false
+        #         update_relationship: false
+        #         add_relationship: false
+        #         delete_relationship: false
 
         Oro\Bundle\UserBundle\Api\Model\UserLogin:
             # documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
