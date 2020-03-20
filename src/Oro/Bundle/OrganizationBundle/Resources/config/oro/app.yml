@@ -5,7 +5,12 @@ security:
             methods: [OPTIONS]
             security: false
             stateless: true
-  
+
+        frontend_api_create_organization:
+            pattern: '^/admin/api/organizations'
+            anonymous: true
+            stateless: true
+       
         frontend_api_searchorganization:
             pattern: '^%oro_api.rest.prefix%searchorganization'
             security: false

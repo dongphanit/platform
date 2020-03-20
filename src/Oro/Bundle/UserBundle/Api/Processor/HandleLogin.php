@@ -87,7 +87,7 @@ class HandleLogin implements ProcessorInterface
         $authenticatedUser = $this->authenticate($model)->getUser();
         // throw new \LogicException(sprintf(
         //     'Invalid authentication provider. The provider key is "%s".',
-        //     $authenticatedUser
+        //     $authenticatedUser -> getOrganizations()
         // ));
         if (!$authenticatedUser instanceof User) {
             throw new AccessDeniedException('The login via API is not supported for this user.');
@@ -112,7 +112,7 @@ class HandleLogin implements ProcessorInterface
     private function authenticate(UserLogin $model): TokenInterface
     {
         $token = new UsernamePasswordToken(
-            $model->getEmail(),
+            $model->getUsername(),
             $model->getPassword(),
             $this->authenticationProviderKey
         );
@@ -166,7 +166,7 @@ class HandleLogin implements ProcessorInterface
     {
         $apiKey = new UserApi();
         $apiKey->setApiKey($apiKey->generateKey());
-
+        $apiKey->setOrganization($user->getCurrentOrganization());
         $user->addApiKey($apiKey);
 
         $em = $this->doctrineHelper->getEntityManager($user);

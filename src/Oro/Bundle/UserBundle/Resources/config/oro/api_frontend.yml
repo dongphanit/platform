@@ -83,7 +83,7 @@ api:
         Oro\Bundle\UserBundle\Api\Model\UserLogin:
             # documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
             fields:
-                email:
+                username:
                     data_type: string
                 password:
                     data_type: string
@@ -98,7 +98,7 @@ api:
                 create:
                     description: Get API Access Key
                     fields:
-                        email:
+                        username:
                             direction: input-only
                             form_options:
                                 constraints:
