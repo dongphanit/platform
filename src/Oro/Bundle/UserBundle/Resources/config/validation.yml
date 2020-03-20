@@ -21,8 +21,8 @@ Oro\Bundle\UserBundle\Entity\User:
         plainPassword:
             - NotBlank:
                 groups:     [Registration, ResetPassword]
-            - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
-                groups:     [Registration, ResetPassword, Default]
+            # - Oro\Bundle\UserBundle\Validator\Constraints\PasswordComplexity:
+            #     groups:     [Registration, ResetPassword, Default]
         enabled:
             - NotNull:      ~
         roles:
@@ -54,8 +54,7 @@ Oro\Bundle\UserBundle\Entity\Role:
             - NotBlank:     ~
             - Length:
                 max:        30
-        users:
-            - Oro\Bundle\UserBundle\Validator\Constraints\UserWithoutRole: ~
+       
 
 Oro\Bundle\UserBundle\Entity\Group:
     constraints:

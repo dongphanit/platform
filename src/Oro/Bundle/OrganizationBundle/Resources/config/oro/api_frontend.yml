@@ -1,8 +1,8 @@
 api:
     entity_aliases:
         Oro\Bundle\OrganizationBundle\Api\Model\Contact:
-            alias: searchorganization
-            plural_alias: searchorganization
+            alias: organizationcontact
+            plural_alias: organizationcontact
             
     entities:
         Oro\Bundle\OrganizationBundle\Entity\BusinessUnit:
@@ -35,7 +35,7 @@ api:
                 create: true
 
         Oro\Bundle\OrganizationBundle\Api\Model\Contact:
-            # documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
+            documentation_resource: '@OroOrganizationBundle/Resources/doc/api/organization_contact.md'
             fields:
                 lstPhone:
                     data_type: string

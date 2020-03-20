@@ -81,6 +81,19 @@ class Organization extends ExtendOrganization implements
      */
      protected $phone;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="coutryCode", type="string", length=255, nullable=true)
+     * @ConfigField(
+     *  defaultValues={
+     *      "entity"={
+     *          "contact_information"="coutryCode"
+     *      }
+     *  }
+     * )
+     */
+    protected $countryCode;
 
     /**
      * @var ArrayCollection|CusOrganiztion[]
@@ -204,7 +217,7 @@ class Organization extends ExtendOrganization implements
      *      }
      * )
      */
-    protected $email;
+    public $email;
 
     public function __construct()
     {
@@ -286,7 +299,31 @@ class Organization extends ExtendOrganization implements
          return $this->phone;
      }
 
- 
+
+    /**
+     * Set country code number
+     *
+     * @param string $countryCode
+     *
+     * @return Organization
+     */
+    public function setCountryCode($countryCode)
+    {
+        $this->countryCode = $countryCode;
+
+        return $this;
+    }
+
+    /**
+     * Get phone number
+     *
+     * @return string
+     */
+    public function getCountryCode()
+    {
+        return $this->countryCode;
+    }
+
     /**
      * @param string $description
      *

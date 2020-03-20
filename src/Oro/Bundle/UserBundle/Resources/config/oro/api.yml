@@ -14,6 +14,7 @@ api:
 
         Oro\Bundle\UserBundle\Entity\Role:
             documentation_resource: '@OroUserBundle/Resources/doc/api/role.md'
+            actions: true
 
         Oro\Bundle\UserBundle\Entity\User:
             documentation_resource: '@OroUserBundle/Resources/doc/api/user.md'
@@ -28,6 +29,9 @@ api:
                 usernameLowercase:
                     exclude: true
                 passwordChangedAt:
+                    form_options:
+                        mapped: false
+                cusOrganizations:
                     form_options:
                         mapped: false
                 passwordRequestedAt:

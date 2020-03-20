@@ -1,8 +1,8 @@
 api:
-    entity_aliases:
-        Oro\Bundle\OrganizationBundle\Api\Model\Contact:
-            alias: searchorganization
-            plural_alias: searchorganization
+    # entity_aliases:
+    #     Oro\Bundle\OrganizationBundle\Api\Model\Contact:
+    #         alias: searchorganization
+    #         plural_alias: searchorganization
 
     entities:
         Oro\Bundle\OrganizationBundle\Entity\BusinessUnit:
@@ -24,23 +24,23 @@ api:
                 delete_list: false
                 create: true
 
-        Oro\Bundle\OrganizationBundle\Api\Model\Contact:
-            # documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
-            fields:
-                lstPhone:
-                    data_type: string
-                output:
-                    data_type: array
-            actions:
-                create:
-                    description: Get API Access Key
-                    fields:
-                        lstPhone:
-                            direction: input-only
-                        output:
-                            direction: output-only
-                    status_codes:
-                        201: false
-                        200: Returned when the credentials are valid and API access key exists
-                        403: Returned when the credentials are not valid or API access key does not exist
-                        409: false
+        # Oro\Bundle\OrganizationBundle\Api\Model\Contact:
+        #     # documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
+        #     fields:
+        #         lstPhone:
+        #             data_type: string
+        #         output:
+        #             data_type: array
+        #     actions:
+        #         create:
+        #             description: Get API Access Key
+        #             fields:
+        #                 lstPhone:
+        #                     direction: input-only
+        #                 output:
+        #                     direction: output-only
+        #             status_codes:
+        #                 201: false
+        #                 200: Returned when the credentials are valid and API access key exists
+        #                 403: Returned when the credentials are not valid or API access key does not exist
+        #                 409: false

@@ -75,6 +75,8 @@ Example:
          "password_expires_at":"2017-01-01T00:00:00Z",
          "middleName":"Karl",
          "birthday":"1964-07-05",
+         "confirmationToken":"abbas",
+         "confirmed": true,
          "enabled":true
       },
       "relationships":{  

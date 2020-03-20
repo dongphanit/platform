@@ -7,7 +7,7 @@ namespace Oro\Bundle\UserBundle\Api\Model;
 class UserLogin
 {
     /** @var string */
-    private $email;
+    private $username;
 
     /** @var string */
     private $password;
@@ -20,9 +20,9 @@ class UserLogin
      *
      * @return string
      */
-    public function getEmail()
+    public function getUsername()
     {
-        return $this->email;
+        return $this->username;
     }
 
     /**
@@ -30,9 +30,9 @@ class UserLogin
      *
      * @param string $email
      */
-    public function setEmail($email)
+    public function setUsername($username)
     {
-        $this->email = $email;
+        $this->username = $username;
     }
 
     /**

@@ -460,6 +460,23 @@ class User extends ExtendUser implements
     protected $currentOrganization;
 
     /**
+     * @var bool
+     *
+     * @ORM\Column(type="boolean")
+     * @ConfigField(
+     *      defaultValues={
+     *          "dataaudit"={
+     *              "auditable"=true
+     *          },
+     *          "importexport"={
+     *              "order"=60
+     *          }
+     *      }
+     * )
+     */
+    protected $confirmed = true;
+
+    /**
      * @var Collection|Organization[]
      *
      * @ORM\ManyToMany(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization", inversedBy="users")
@@ -627,6 +644,26 @@ class User extends ExtendUser implements
     public function setNameSuffix($nameSuffix)
     {
         $this->nameSuffix = $nameSuffix;
+
+        return $this;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isConfirmed()
+    {
+        return $this->confirmed;
+    }
+
+    /**
+     * @param bool $confirmed
+     *
+     * @return AbstractUser
+     */
+    public function setConfirmed($confirmed)
+    {
+        $this->confirmed = (bool)$confirmed;
 
         return $this;
     }
@@ -1211,7 +1248,10 @@ class User extends ExtendUser implements
      */
     public function getCurrentOrganization()
     {
-        return $this->currentOrganization;
+        if($this->currentOrganization){
+            return $this->currentOrganization;
+        }
+        return $this -> organizations[0];
     }
 
     /**
