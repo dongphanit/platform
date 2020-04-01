@@ -33,26 +33,26 @@ class Contact
     /**
      * @var Collection|Customer[]
      */
-    protected $output;
+    protected $data;
 
     /**
      * Gets the API access key that should be used for subsequent API requests.
      *
      * @return string|null
      */
-    public function getOutput()
+    public function getData()
     {
-        return $this->output;
+        return $this->data;
     }
 
     /**
      * Sets the API access key belongs to the customer user with the given email and password.
      *
-     * @param string $output
+     * @param string $data
      */
-    public function setOutput($output)
+    public function setData($data)
     {
-        $this->output = $output;
+        $this->data = $data;
     }
 
 

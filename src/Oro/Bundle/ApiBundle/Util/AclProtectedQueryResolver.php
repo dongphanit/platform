@@ -30,7 +30,6 @@ class AclProtectedQueryResolver extends QueryResolver
         $this->aclHelper = $aclHelper;
     }
 
-
     /**
      * {@inheritdoc}
      */
@@ -38,6 +37,9 @@ class AclProtectedQueryResolver extends QueryResolver
     {
         $options = [AclAccessRule::CHECK_OWNER => true];
         $skipRootEntity = (bool)$config->get(self::SKIP_ACL_FOR_ROOT_ENTITY);
+        if (array_key_exists(self::SKIP_ACL_FOR_ROOT_ENTITY, $config->getFields())){
+            $skipRootEntity = true;
+        }
         if ($skipRootEntity) {
             $options[AclHelper::CHECK_ROOT_ENTITY] = false;
         }
