@@ -4,7 +4,6 @@ security:
             pattern: '%oro_api.rest.pattern%'
             methods: [OPTIONS]
             security: false
-            stateless: true
 
         frontend_api_create_organization:
             pattern: '^/admin/api/organizations'

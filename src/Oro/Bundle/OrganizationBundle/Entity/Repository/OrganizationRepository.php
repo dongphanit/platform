@@ -228,16 +228,45 @@ class OrganizationRepository extends EntityRepository
      * @param AclHelper $aclHelper
      * @return array
      */
+    public function getOrganizationByPhone($phone, $countryCode, AclHelper $aclHelper = null)
+    {
+        $qb = $this->createQueryBuilder('organization');
+        $qb->select()
+             ->andWhere($qb->expr()->andX(
+                $qb->expr()->eq('organization.phone', $phone),
+                $qb->expr()->orX(
+                    $qb->expr()->eq('organization.countryCode', $countryCode),
+                    $qb->expr()->isNull('organization.countryCode')
+                    ) 
+            ));
+
+        if ($aclHelper) {
+            $query = $aclHelper->apply($qb);
+        } else {
+            $query = $qb->getQuery();
+        }      
+        return $query->getArrayResult();
+    }
+
+     /**
+     * @param int $customerId
+     * @param AclHelper $aclHelper
+     * @return array
+     */
     public function getOrganizationsWithLstPhone($lstPhone, AclHelper $aclHelper = null)
     {
         $phones = array($lstPhone);
         $qb = $this->createQueryBuilder('organization');
         $qb->select()
-            ->join('organization.cusOrganizations', 'org')->addSelect("org") 
-            ->andWhere($qb->expr()->andX(
-                $qb->expr()->in('organization.phone', $lstPhone),
-                $qb->expr()->eq('org.cus_status', '3')
-            ));
+        ->leftJoin('organization.linkCustomersOrganizations', 'cus_org')->addSelect("cus_org") 
+        ->andWhere($qb->expr()->andX(
+            $qb->expr()->in('organization.phone', $lstPhone),
+            $qb->expr()->orX(
+                $qb->expr()->eq('cus_org.status', '3'),// 3 Organization requested friends
+                $qb->expr()->isNull('cus_org.status')
+                ) 
+        ));
+
 
         if ($aclHelper) {
             $query = $aclHelper->apply($qb);

@@ -1,9 +1,11 @@
 api:
     entity_aliases:
         Oro\Bundle\OrganizationBundle\Api\Model\Contact:
-            alias: organizationcontact
-            plural_alias: organizationcontact
-            
+            alias: suggestorganization
+            plural_alias: suggestorganization
+        Oro\Bundle\OrganizationBundle\Api\Model\SearchByPhone:
+            alias: searchorganizationbyphone
+            plural_alias: searchorganizationbyphone
     entities:
         Oro\Bundle\OrganizationBundle\Entity\BusinessUnit:
             documentation_resource: '@OroOrganizationBundle/Resources/doc/api/business_unit.md'
@@ -20,34 +22,75 @@ api:
         Oro\Bundle\OrganizationBundle\Entity\Organization:
             documentation_resource: '@OroOrganizationBundle/Resources/doc/api/organization.md'
             fields:
-                cusOrganizations:
-                    form_options:
-                        mapped: false
+                skip_acl_for_root_entity: true
                 businessUnits:
                     form_options:
                         mapped: false
                 users:
                     form_options:
                         mapped: false
+
+                linkCustomersOrganizations:
+                    form_options:
+                        mapped: false
+            filters:
+                fields:
+                    name:
+                        operators: ['=', '!=', '*', '!*', '~', '!~', '^', '!^', '$', '!$']
+                    phone: 
+                        operators: ['=', '!=', '*', '!*', '~', '!~', '^', '!^', '$', '!$']
+                    countryCode:
+                        operators: ['=', '!=', '*', '!*', '~', '!~', '^', '!^', '$', '!$']
+                    linkCustomersOrganizations:
+                        exclude: false
             actions:
                 delete: false
                 delete_list: false
                 create: true
 
         Oro\Bundle\OrganizationBundle\Api\Model\Contact:
-            documentation_resource: '@OroOrganizationBundle/Resources/doc/api/organization_contact.md'
+            documentation_resource: '@OroOrganizationBundle/Resources/doc/api/suggest_organizations.md'
             fields:
                 lstPhone:
                     data_type: string
-                output:
+                data:
                     data_type: array
             actions:
+                get: false
+                get_list: false
                 create:
                     description: Get API Access Key
                     fields:
                         lstPhone:
                             direction: input-only
-                        output:
+                        data:
+                            direction: output-only
+                    status_codes:
+                        201: false
+                        200: Returned when the credentials are valid and API access key exists
+                        403: Returned when the credentials are not valid or API access key does not exist
+                        409: false
+
+        Oro\Bundle\OrganizationBundle\Api\Model\SearchByPhone:
+            documentation_resource: '@OroOrganizationBundle/Resources/doc/api/search_organizations.md'
+            fields:
+                phone:
+                    data_type: string
+                countryCode:
+                    data_type: string
+                data:
+                    data_type: array
+            actions:
+                get: false
+                get_list: false
+                create:
+                    description: Get API Access Key
+                    fields:
+                        phone:
+                            direction: input-only
+                        countryCode:
+                            direction: input-only
+                        data:
                             direction: output-only
                     status_codes:
                         201: false
