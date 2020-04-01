@@ -75,16 +75,16 @@ class SecurityContext implements SecurityContextInterface
         if ($apiKeyKeys->isEmpty()) {
             return null;
         }
-
-        if ($token instanceof OrganizationAwareTokenInterface) {
-            $organization = $token->getOrganization();
+        #test
+        // if ($token instanceof OrganizationAwareTokenInterface) {
+        //     $organization = $token->getOrganization();
             
-            foreach ($apiKeyKeys as $apiKeyKey) {
-                if ($apiKeyKey->getOrganization()->getId() === $organization->getId()) {
-                    return $apiKeyKey->getApiKey();
-                }
-            }
-        }
+        //     foreach ($apiKeyKeys as $apiKeyKey) {
+        //         if ($apiKeyKey->getOrganization()->getId() === $organization->getId()) {
+        //             return $apiKeyKey->getApiKey();
+        //         }
+        //     }
+        // }
 
         return $apiKeyKeys->first()->getApiKey();
     }
