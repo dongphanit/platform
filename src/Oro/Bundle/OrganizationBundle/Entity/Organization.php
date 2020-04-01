@@ -10,7 +10,8 @@ use Oro\Bundle\NotificationBundle\Entity\NotificationEmailInterface;
 use Oro\Bundle\OrganizationBundle\Model\ExtendOrganization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Oro\Bundle\AttachmentBundle\Entity\File;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 /**
  * Organization represents a real enterprise, business, firm, company or another organization, to which the users belong
  *
@@ -21,6 +22,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     fields={"name"}
  * )
  * @Config(
+ * 
  *      defaultValues={
  *          "security"={
  *              "type"="ACL",
@@ -82,6 +84,13 @@ class Organization extends ExtendOrganization implements
      protected $phone;
 
     /**
+     * @var File $cover
+     * @ORM\OneToOne(targetEntity="Oro\Bundle\AttachmentBundle\Entity\File", cascade={"persist"})
+     * @ORM\JoinColumn(name="file_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    public $cover;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="coutryCode", type="string", length=255, nullable=true)
@@ -96,9 +105,9 @@ class Organization extends ExtendOrganization implements
     protected $countryCode;
 
     /**
-     * @var ArrayCollection|CusOrganiztion[]
+     * @var ArrayCollection|LinkCustomerOrganization[]
      *
-     * @ORM\OneToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\CusOrganiztion", mappedBy="organiztion")
+     * @ORM\OneToMany(targetEntity="Oro\Bundle\CustomerBundle\Entity\LinkCustomerOrganization", mappedBy="organization")
      * @ConfigField(
      *      defaultValues={
      *          "dataaudit"={
@@ -110,7 +119,7 @@ class Organization extends ExtendOrganization implements
      *      }
      * )
      */
-    protected $cusOrganizations;
+    protected $linkCustomersOrganizations;
 
 
     
@@ -225,7 +234,7 @@ class Organization extends ExtendOrganization implements
 
         $this->businessUnits = new ArrayCollection();
         $this->users         = new ArrayCollection();
-        $this->cusOrganizations    = new ArrayCollection();
+        $this->linkCustomersOrganizations    = new ArrayCollection();
     }
 
 
@@ -600,10 +609,10 @@ class Organization extends ExtendOrganization implements
     }
 
     /**
-     * @return ArrayCollection|User[]
+     * @return ArrayCollection|LinkCustomerOrganization[]
      */
-    public function getCusOrganiztions()
+    public function getlinkCustomersOrganizations()
     {
-        return $this->cusOrganizations;
+        return $this->linkCustomersOrganizations;
     }
 }

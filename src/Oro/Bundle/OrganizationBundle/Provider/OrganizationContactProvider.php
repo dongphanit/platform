@@ -43,6 +43,16 @@ class OrganizationContactProvider
         return OrganizationUser::class;
     }
 
+     /**
+     * @return []
+     */
+    public function getOrganizationByPhone($phone, $countryCode)
+    {
+        $repository = $this->getOrganizationContactRepository();
+        $result = $repository->getOrganizationByPhone($phone, $countryCode);
+        return $result;
+    }
+
     /**
      * @return []
      */

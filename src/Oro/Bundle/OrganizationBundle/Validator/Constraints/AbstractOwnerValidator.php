@@ -101,7 +101,7 @@ abstract class AbstractOwnerValidator extends ConstraintValidator
             // the validation is required only for ACL protected entities
             return;
         }
-
+        #test
         if (!$this->validateOwner($ownershipMetadata, $em, $entityClass, $value)) {
             $ownerFieldName = $ownershipMetadata->getOwnerFieldName();
             /** @var ExecutionContextInterface $context */

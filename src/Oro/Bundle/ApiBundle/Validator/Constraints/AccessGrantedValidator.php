@@ -39,7 +39,8 @@ class AccessGrantedValidator extends ConstraintValidator
         if (!is_object($value)) {
             throw new UnexpectedTypeException($value, 'object');
         }
-
+        
+        #testing
         if (!$this->authorizationChecker->isGranted($constraint->permission, $value)) {
             $this->context->addViolation(
                 $constraint->message,

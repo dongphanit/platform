@@ -19,11 +19,10 @@ use Symfony\Component\Security\Core\Role\Role;
  *
  * @ORM\MappedSuperclass
  */
-abstract class AbstractUser implements
+abstract class AbstractCustomer implements
     UserInterface,
     LoginInfoInterface,
     \Serializable,
-    OrganizationAwareInterface,
     PasswordRecoveryInterface
 {
     const ROLE_DEFAULT = 'ROLE_USER';
@@ -168,14 +167,6 @@ abstract class AbstractUser implements
      * )
      */
     protected $confirmationToken;
-
-    /**
-     * @var Organization
-     *
-     * @ORM\ManyToOne(targetEntity="Oro\Bundle\OrganizationBundle\Entity\Organization")
-     * @ORM\JoinColumn(name="organization_id", referencedColumnName="id", onDelete="SET NULL")
-     */
-    protected $organization;
 
     /**
      * @var \DateTime
@@ -547,25 +538,6 @@ abstract class AbstractUser implements
         $this->plainPassword = null;
     }
 
-    /**
-     * Get organization
-     *
-     * @return OrganizationInterface|Organization
-     */
-    public function getOrganization()
-    {
-        return $this->organization;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setOrganization(OrganizationInterface $organization = null)
-    {
-        $this->organization = $organization;
-
-        return $this;
-    }
 
     /**
      * {@inheritDoc}
@@ -646,30 +618,30 @@ abstract class AbstractUser implements
         return $this;
     }
 
-    /**
-     * Checks whether the user is belong to the given organization.
-     *
-     * @param Organization $organization
-     * @param bool         $onlyEnabled Whether all or only enabled organizations should be checked
-     *
-     * @return bool
-     */
-    public function isBelongToOrganization(Organization $organization, bool $onlyEnabled = false): bool
-    {
-        $organizationId = $organization->getId();
-        $organizations = $this->getOrganizations($onlyEnabled);
-        foreach ($organizations as $org) {
-            if (null === $organizationId) {
-                if ($org === $organization) {
-                    return true;
-                }
-            } elseif ($org->getId() === $organizationId) {
-                return true;
-            }
-        }
+    // /**
+    //  * Checks whether the user is belong to the given organization.
+    //  *
+    //  * @param Organization $organization
+    //  * @param bool         $onlyEnabled Whether all or only enabled organizations should be checked
+    //  *
+    //  * @return bool
+    //  */
+    // public function isBelongToOrganization(Organization $organization, bool $onlyEnabled = false): bool
+    // {
+    //     $organizationId = $organization->getId();
+    //     $organizations = $this->getOrganizations($onlyEnabled);
+    //     foreach ($organizations as $org) {
+    //         if (null === $organizationId) {
+    //             if ($org === $organization) {
+    //                 return true;
+    //             }
+    //         } elseif ($org->getId() === $organizationId) {
+    //             return true;
+    //         }
+    //     }
 
-        return true;
-    }
+    //     return false;
+    // }
 
     /**
      * Gets organizations the user is belong to.

@@ -20,7 +20,7 @@ use Oro\Bundle\OrganizationBundle\Provider\OrganizationContactProvider;
  * Checks whether the login credentials are valid
  * and if so, sets API access key of authenticated Organization user to the model.
  */
-class HandleOrganizationContact implements ProcessorInterface
+class HandleSearchByPhone implements ProcessorInterface
 {
     /** @var string */
     private $authenticationProviderKey;
@@ -62,8 +62,7 @@ class HandleOrganizationContact implements ProcessorInterface
     {
         /** @var CreateContext $context */
         $model = $context->getResult();
-        $lstPhone = explode(",", $model -> getLstPhone());
-        $results = $this->organizationContactProvider->getOrganizationContactWithPhones($lstPhone);
+        $results = $this->organizationContactProvider->getOrganizationByPhone($model->getPhone(), $model->getCountryCode());
         $model-> setData($results);
     
        
