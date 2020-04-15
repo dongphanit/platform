@@ -16,6 +16,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Oro\Bundle\OrganizationBundle\Provider\OrganizationContactProvider;
+use Oro\Bundle\AttachmentBundle\Manager\FileManager;
+
 /**
  * Checks whether the login credentials are valid
  * and if so, sets API access key of authenticated Organization user to the model.
@@ -36,15 +38,20 @@ class HandleSearchByPhone implements ProcessorInterface
 
     /** @var TranslatorInterface */
     private $translator;
+    
+    /** @var FileManager */
+    private $fileManager;
 
     /**
      * @param string                          $authenticationProviderKey
      */
     public function __construct(
         string $authenticationProviderKey,
-        OrganizationContactProvider $organizationContactProvider
+        OrganizationContactProvider $organizationContactProvider,
+        FileManager $fileManager
     ) {
         $this->organizationContactProvider = $organizationContactProvider;
+        $this->fileManager = $fileManager;
     }
 
     function debug_to_console($data) {
@@ -63,11 +70,20 @@ class HandleSearchByPhone implements ProcessorInterface
         /** @var CreateContext $context */
         $model = $context->getResult();
         $results = $this->organizationContactProvider->getOrganizationByPhone($model->getPhone(), $model->getCountryCode());
+        foreach ($results as &$value) {
+            $content = '';
+            if ($value['filename'] != null){
+                $content = base64_encode($this->fileManager->getFileContent($value['filename']));
+            }
+           
+            $value = $value['0'];
+            $value['avatar']= $content;
+        }
         $model-> setData($results);
     
        
         // $repository = $this->getOrganizationRepository();
-        // $children = $repository->getOrganizationsWithLstPhone($model->getLstPhone(), $this->aclHelper);
+        // $children = $repository->suggestOrganizationsByPhones($model->getLstPhone(), $this->aclHelper);
 
         // throw new \LogicException(sprintf(
         //     'Invalid authentication provider. The provider key is "%s".',

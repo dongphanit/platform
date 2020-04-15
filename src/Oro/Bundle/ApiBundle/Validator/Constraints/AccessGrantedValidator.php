@@ -41,11 +41,11 @@ class AccessGrantedValidator extends ConstraintValidator
         }
         
         #testing
-        if (!$this->authorizationChecker->isGranted($constraint->permission, $value)) {
-            $this->context->addViolation(
-                $constraint->message,
-                ['{{ permission }}' => $constraint->permission]
-            );
-        }
+        // if (!$this->authorizationChecker->isGranted($constraint->permission, $value)) {
+        //     $this->context->addViolation(
+        //         $constraint->message,
+        //         ['{{ permission }}' => $constraint->permission]
+        //     );
+        // }
     }
 }

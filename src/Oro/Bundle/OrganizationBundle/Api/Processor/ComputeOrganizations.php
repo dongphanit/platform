@@ -46,6 +46,10 @@ class ComputeOrganizations implements ProcessorInterface
             $index = 0;
             foreach ($data as $key => $item) {
                 $itemJson = $dataJson[$index];
+                if(property_exists($itemJson, 'linkCustomersOrganizations') == false)
+                {
+                    return;
+                }
                 $links = $itemJson->linkCustomersOrganizations;
                 // $this-> debug_to_console(json_encode($links));
                 if (sizeof($links) > 0){

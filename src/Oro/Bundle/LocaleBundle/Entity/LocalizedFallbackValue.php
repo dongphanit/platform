@@ -56,7 +56,7 @@ class LocalizedFallbackValue extends ExtendLocalizedFallbackValue
     /**
      * @var string|null
      *
-     * @ORM\Column(name="string", type="string", length=255, nullable=true)
+     * @ORM\Column(name="string", type="string", length=255, nullable=false)
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={
@@ -70,7 +70,7 @@ class LocalizedFallbackValue extends ExtendLocalizedFallbackValue
     /**
      * @var string|null
      *
-     * @ORM\Column(name="text", type="text", nullable=true)
+     * @ORM\Column(name="text", type="text", nullable=false)
      * @ConfigField(
      *      defaultValues={
      *          "importexport"={

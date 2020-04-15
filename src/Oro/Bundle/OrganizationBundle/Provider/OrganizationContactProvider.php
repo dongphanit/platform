@@ -56,12 +56,12 @@ class OrganizationContactProvider
     /**
      * @return []
      */
-    public function getOrganizationContactWithPhones($lstPhone)
+    public function suggestOrganizationsByPhones($lstPhone, $customerId)
     {
         
         $repository = $this->getOrganizationContactRepository();
         
-        $result = $repository->getOrganizationsWithLstPhone($lstPhone);
+        $result = $repository->suggestOrganizationsByPhones($lstPhone, $customerId);
 
 
         return $result;

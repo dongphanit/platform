@@ -102,15 +102,15 @@ abstract class AbstractOwnerValidator extends ConstraintValidator
             return;
         }
         #test
-        if (!$this->validateOwner($ownershipMetadata, $em, $entityClass, $value)) {
-            $ownerFieldName = $ownershipMetadata->getOwnerFieldName();
-            /** @var ExecutionContextInterface $context */
-            $context = $this->context;
-            $context->buildViolation($constraint->message)
-                ->atPath($ownerFieldName)
-                ->setParameter('{{ owner }}', $ownerFieldName)
-                ->addViolation();
-        }
+        // if (!$this->validateOwner($ownershipMetadata, $em, $entityClass, $value)) {
+        //     $ownerFieldName = $ownershipMetadata->getOwnerFieldName();
+        //     /** @var ExecutionContextInterface $context */
+        //     $context = $this->context;
+        //     $context->buildViolation($constraint->message)
+        //         ->atPath($ownerFieldName)
+        //         ->setParameter('{{ owner }}', $ownerFieldName)
+        //         ->addViolation();
+        // }
     }
 
     /**

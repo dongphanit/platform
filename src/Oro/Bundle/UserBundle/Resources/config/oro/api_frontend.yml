@@ -53,6 +53,7 @@ api:
                                 property_path: plainPassword
                 update:
                     exclude: false # set manually because this entity is marked as a dictionary
+                    
 
         Extend\Entity\EV_Auth_Status:
             documentation_resource: '@OroUserBundle/Resources/doc/api/user.md'
