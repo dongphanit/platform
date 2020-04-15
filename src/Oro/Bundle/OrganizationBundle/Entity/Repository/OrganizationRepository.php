@@ -8,7 +8,7 @@ use Doctrine\ORM\NoResultException;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\DoctrineUtils\ORM\QueryBuilderUtil;
-
+use Doctrine\ORM\Query\Expr;
 /**
  * Provides reusable methods that provide the database access for the Organization entity.
  */
@@ -232,7 +232,8 @@ class OrganizationRepository extends EntityRepository
     {
         $qb = $this->createQueryBuilder('organization');
         $qb->select()
-             ->andWhere($qb->expr()->andX(
+            ->leftJoin('organization.avatar', 'avatar')->addSelect("avatar.filename") 
+            ->andWhere($qb->expr()->andX(
                 $qb->expr()->eq('organization.phone', $phone),
                 $qb->expr()->orX(
                     $qb->expr()->eq('organization.countryCode', $countryCode),
@@ -253,19 +254,24 @@ class OrganizationRepository extends EntityRepository
      * @param AclHelper $aclHelper
      * @return array
      */
-    public function getOrganizationsWithLstPhone($lstPhone, AclHelper $aclHelper = null)
+    public function suggestOrganizationsByPhones($lstPhone, $customerId, AclHelper $aclHelper = null)
     {
         $phones = array($lstPhone);
         $qb = $this->createQueryBuilder('organization');
         $qb->select()
-        ->leftJoin('organization.linkCustomersOrganizations', 'cus_org')->addSelect("cus_org") 
-        ->andWhere($qb->expr()->andX(
-            $qb->expr()->in('organization.phone', $lstPhone),
-            $qb->expr()->orX(
-                $qb->expr()->eq('cus_org.status', '3'),// 3 Organization requested friends
-                $qb->expr()->isNull('cus_org.status')
+        ->leftJoin('organization.linkCustomersOrganizations', 'cus_org',  Expr\Join::WITH, 'cus_org.customer = :customer')->addSelect("cus_org") 
+        ->leftJoin('organization.avatar', 'avatar')->addSelect("avatar.filename") 
+        ->andWhere($qb->expr()->orX(
+            $qb->expr()->eq('cus_org.status', '3'),// // 3 Organization requested friends
+            $qb->expr()->andX(
+                $qb->expr()->in('organization.phone', $lstPhone),
+                $qb->expr()->orX(
+                    $qb->expr()->isNull('cus_org.status'),
+                    $qb->expr()->eq('cus_org.status', '3')
+                )
                 ) 
-        ));
+        ))
+        ->setParameter('customer', $customerId);
 
 
         if ($aclHelper) {

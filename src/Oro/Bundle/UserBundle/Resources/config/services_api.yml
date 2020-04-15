@@ -11,7 +11,7 @@ services:
         arguments:
             - '@oro_user.manager'
         tags:
-            - { name: oro.api.processor, action: customize_form_data, event: post_validate, parentAction: create, class: Oro\Bundle\UserBundle\Entity\User }
+            - { name: oro.api.processor, action: customize_form_data, event: post_validate,  class: Oro\Bundle\UserBundle\Entity\User }
 
     oro_user.api.customize_form_data.disable_user:
         class: Oro\Bundle\UserBundle\Api\Processor\DisableUserByDefault

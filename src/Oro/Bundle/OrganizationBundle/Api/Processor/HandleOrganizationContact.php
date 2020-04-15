@@ -16,6 +16,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Oro\Bundle\OrganizationBundle\Provider\OrganizationContactProvider;
+use Oro\Bundle\AttachmentBundle\Manager\FileManager;
+use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+
 /**
  * Checks whether the login credentials are valid
  * and if so, sets API access key of authenticated Organization user to the model.
@@ -37,14 +40,24 @@ class HandleOrganizationContact implements ProcessorInterface
     /** @var TranslatorInterface */
     private $translator;
 
+    /** @var FileManager */
+    private $fileManager;
+
+    /** @var TokenAccessorInterface */
+    private $tokenAccessor;
+
     /**
      * @param string                          $authenticationProviderKey
      */
     public function __construct(
         string $authenticationProviderKey,
-        OrganizationContactProvider $organizationContactProvider
+        OrganizationContactProvider $organizationContactProvider,
+        FileManager $fileManager,
+        TokenAccessorInterface $tokenAccessor
     ) {
         $this->organizationContactProvider = $organizationContactProvider;
+        $this->fileManager = $fileManager;
+        $this->tokenAccessor = $tokenAccessor;
     }
 
     function debug_to_console($data) {
@@ -63,12 +76,25 @@ class HandleOrganizationContact implements ProcessorInterface
         /** @var CreateContext $context */
         $model = $context->getResult();
         $lstPhone = explode(",", $model -> getLstPhone());
-        $results = $this->organizationContactProvider->getOrganizationContactWithPhones($lstPhone);
+        
+        $user = $this->tokenAccessor->getUser();
+        $customerId = $user->getCustomer()->getId();
+
+        $results = $this->organizationContactProvider->suggestOrganizationsByPhones($lstPhone, $customerId);
+        // $this->debug_to_console(json_encode($results));
+        foreach ($results as &$value) {
+            $content = '';
+            if ($value['filename'] != null){
+                $content = base64_encode($this->fileManager->getFileContent($value['filename']));
+            }
+           
+            $value = $value['0'];
+            $value['avatar']= $content;
+        }
         $model-> setData($results);
-    
-       
+
         // $repository = $this->getOrganizationRepository();
-        // $children = $repository->getOrganizationsWithLstPhone($model->getLstPhone(), $this->aclHelper);
+        // $children = $repository->suggestOrganizationsByPhones($model->getLstPhone(), $this->aclHelper);
 
         // throw new \LogicException(sprintf(
         //     'Invalid authentication provider. The provider key is "%s".',

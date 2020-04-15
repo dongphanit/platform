@@ -43,6 +43,10 @@ api:
                 lastLogin:
                     form_options:
                         mapped: false
+            filters:
+                fields:
+                    phone: 
+                        operators: [ '=' ]
             actions:
                 delete:
                     exclude: false # set manually because this entity is marked as a dictionary
@@ -57,6 +61,11 @@ api:
                                 property_path: plainPassword
                 update:
                     exclude: false # set manually because this entity is marked as a dictionary
+                    fields:
+                        password:
+                            exclude: false # set manually because this field is excluded globally
+                            form_options:
+                                property_path: plainPassword
 
         Extend\Entity\EV_Auth_Status:
             documentation_resource: '@OroUserBundle/Resources/doc/api/user.md'

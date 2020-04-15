@@ -18,6 +18,15 @@ api:
                     exclude: false # set manually because this entity is marked as a dictionary
                 update:
                     exclude: false # set manually because this entity is marked as a dictionary
+                    
+        Oro\Bundle\CustomerBundle\Entity\LinkCustomerOrganization:
+            documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/link_customer_organization.md'
+            # this entity does not have own API resource,
+            # but it should be defined to correct work of "types" property
+            # of the customer address API resource
+            
+            fields:
+                skip_acl_for_root_entity: true
 
         Oro\Bundle\OrganizationBundle\Entity\Organization:
             documentation_resource: '@OroOrganizationBundle/Resources/doc/api/organization.md'
@@ -31,8 +40,9 @@ api:
                         mapped: false
 
                 linkCustomersOrganizations:
-                    form_options:
-                        mapped: false
+                    fields:
+                        skip_acl_for_root_entity: true
+                        
             filters:
                 fields:
                     name:
@@ -47,6 +57,8 @@ api:
                 delete: false
                 delete_list: false
                 create: true
+
+
 
         Oro\Bundle\OrganizationBundle\Api\Model\Contact:
             documentation_resource: '@OroOrganizationBundle/Resources/doc/api/suggest_organizations.md'

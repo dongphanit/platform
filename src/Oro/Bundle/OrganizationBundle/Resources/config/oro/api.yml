@@ -22,7 +22,11 @@ api:
             actions:
                 delete: false
                 delete_list: false
-                create: true
+                create: 
+                    fields:
+                       linkCustomersOrganizations:
+                            form_options:
+                                mapped: false
             
         # Oro\Bundle\OrganizationBundle\Api\Model\Contact:
         #     # documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/login.md'
